@@ -31,7 +31,7 @@ object dmDatabase: TdmDatabase
       'Trim Char=False')
     VendorLib = 'gds32.dll'
     Left = 41
-    Top = 21
+    Top = 22
   end
   object Decoder64: TIdDecoderMIME
     FillChar = '='
@@ -59,7 +59,7 @@ object dmDatabase: TdmDatabase
     LoginPrompt = False
     Params.Strings = (
       'DriverName=Interbase'
-      'Database=firebird09-farm51.kinghost.net:/firebird/servisoft1.gdb'
+      'Database=firebird19-farm36.kinghost.net:/firebird/servisoft1.gdb'
       'RoleName=RoleName'
       'User_Name=servisoft1'
       'Password=campobom'
@@ -73,7 +73,6 @@ object dmDatabase: TdmDatabase
       'Interbase TransIsolation=ReadCommited'
       'Trim Char=False')
     VendorLib = 'gds32.dll'
-    Connected = True
     Left = 42
     Top = 80
   end

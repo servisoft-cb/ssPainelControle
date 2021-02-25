@@ -22,10 +22,10 @@ object frmConfigEdit: TfrmConfigEdit
     Top = 0
     Width = 538
     Height = 400
-    ActivePage = TabSheet5
+    ActivePage = TabSheet1
     ActivePageDefault = TabSheet1
     Align = alClient
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 0
     FixedDimension = 19
     object TabSheet1: TRzTabSheet
