@@ -349,7 +349,6 @@ var
   vFlag, vErro: Boolean;
   F: TextFile;
   arqLog: String;
-  vID_Versao: Integer;
   vSQL_Ant: WideString;
   ID, ID2: TTransactionDesc;
   sds: TSQLDataSet;
@@ -359,6 +358,8 @@ var
   i2 : Integer;
   ctVersao : String;
   vMSGErro : String;
+  vID_Versao : Integer;
+  vID_VersaoAnt : Integer;
 begin
   arqLog := '';
   vErro  := False;
@@ -384,12 +385,17 @@ begin
     Sleep(1000);
     Application.ProcessMessages;
 
+    dmDatabase.scoAtualiza.Connected := True;
+
     dmDatabase.cdsVersao.close;
     dmDatabase.sdsVersao.CommandText := ctVersao + ' AND ID = ' + IntToStr(i) + ' AND PROGRAMA_ID = 1 ';
     dmDatabase.cdsVersao.Open;
+    
     if not dmDatabase.cdsVersao.IsEmpty then
     begin
       try
+        vID_Versao    := dmDatabase.cdsVersaoID.AsInteger;
+        vID_VersaoAnt := 0;
         sds := TSQLDataSet.Create(nil);
         sds.SQLConnection := dmDatabase.scoDados;
         sds.NoMetadata    := True;
@@ -397,6 +403,9 @@ begin
         vFlag2 := 1;
 
         S := dmDatabase.cdsVersaoSCRIPT.AsString;
+
+        dmDatabase.scoAtualiza.Connected := False;
+
         vFlag := True;
         while vFlag do
         begin
@@ -418,11 +427,15 @@ begin
               dmDatabase.scoDados.Commit(ID);
             except
               WriteLn(F,'----------------------------');
-              WriteLn(F,'Versão: ' + dmDatabase.cdsVersaoID.AsString + ' = ' + vSQL_Ant);
+              WriteLn(F,'Versão: ' + IntToStr(vID_Versao) + ' = ' + vSQL_Ant);
               vErro := True;
-              if trim(vMSGErro) = '' then
-                vMSGErro := 'Verificar erro de script no arquivo de log: ' + arqLog;
-              vMSGErro := vMSGErro + #13 + 'Versão : ' + FormatFloat('0000',dmDatabase.cdsVersaoID.AsInteger);
+              if vID_VersaoAnt <> vID_Versao then
+              begin
+                if trim(vMSGErro) = '' then
+                  vMSGErro := 'Verificar erro de script no arquivo de log: ' + arqLog;
+                vMSGErro := vMSGErro + #13 + 'Versão : ' + FormatFloat('0000',vID_Versao);
+              end;
+              vID_VersaoAnt := vID_Versao;
               dmDatabase.scoDados.Rollback(ID);
             end;
           end;
@@ -430,7 +443,7 @@ begin
           if Length(S) = 0 then
             vFlag := False;
         end;
-        dmDatabase.sdsExec.CommandText := ('UPDATE PARAMETROS SET VERSAO_BANCO = ' + dmDatabase.cdsVersaoID.AsString);
+        dmDatabase.sdsExec.CommandText := ('UPDATE PARAMETROS SET VERSAO_BANCO = ' + IntToStr(vID_Versao));
         dmDatabase.sdsExec.ExecSQL(True);
 
       finally

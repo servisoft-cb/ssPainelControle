@@ -223,9 +223,9 @@ begin
 
     sds := TSQLDataSet.Create(nil);
     sds.SQLConnection := scoAtualiza;
-    sds.NoMetadata  := True;
-    sds.GetMetadata := False;
-    sds.CommandText := 'SELECT MAX(ID) ULTVERSAO FROM VERSAO WHERE PROGRAMA_ID = 1 AND IMPLANTADA = ''S''';
+    sds.NoMetadata    := True;
+    sds.GetMetadata   := False;
+    sds.CommandText   := 'SELECT MAX(ID) ULTVERSAO FROM VERSAO WHERE PROGRAMA_ID = 1 AND IMPLANTADA = ''S''';
     sds.Open;
     Result := sds.FieldByName('ULTVERSAO').AsInteger;
   finally

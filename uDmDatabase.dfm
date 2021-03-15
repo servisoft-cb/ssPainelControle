@@ -30,7 +30,7 @@ object dmDatabase: TdmDatabase
       'Interbase TransIsolation=ReadCommited'
       'Trim Char=False')
     VendorLib = 'gds32.dll'
-    Left = 41
+    Left = 42
     Top = 22
   end
   object Decoder64: TIdDecoderMIME
@@ -47,8 +47,8 @@ object dmDatabase: TdmDatabase
     MaxBlobSize = -1
     Params = <>
     SQLConnection = scoDados
-    Left = 280
-    Top = 80
+    Left = 315
+    Top = 79
   end
   object scoAtualiza: TSQLConnection
     ConnectionName = 'FDBUpdate'
@@ -73,6 +73,7 @@ object dmDatabase: TdmDatabase
       'Interbase TransIsolation=ReadCommited'
       'Trim Char=False')
     VendorLib = 'gds32.dll'
+    Connected = True
     Left = 42
     Top = 80
   end
@@ -95,7 +96,7 @@ object dmDatabase: TdmDatabase
     MaxBlobSize = -1
     Params = <>
     SQLConnection = scoAtualiza
-    Left = 104
+    Left = 105
     Top = 80
     object sdsVersaoID: TIntegerField
       FieldName = 'ID'
