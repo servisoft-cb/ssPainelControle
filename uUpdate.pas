@@ -360,6 +360,7 @@ var
   vMSGErro : String;
   vID_Versao : Integer;
   vID_VersaoAnt : Integer;
+  vArqAux : String;
 begin
   arqLog := '';
   vErro  := False;
@@ -466,7 +467,15 @@ begin
     DeleteFile(arqLog);
 
   if vErro then
+  begin
     MessageDlg(vMSGErro,mtError,[mbOk],0);
+    vArqAux := ExtractFilePath(Application.ExeName);
+    if copy(vArqAux,Length(vArqAux),1) <> '\' then
+      vArqAux := vArqAux + '\';
+    vArqAux := vArqAux + arqLog;
+    vArqAux := 'Notepad.exe ' + vArqAux;
+    winExec(PAnsiChar(vArqAux), sw_shownormal);
+  end;
 
   dmDatabase.cdsVersao.Close;
   dmDatabase.scoDados.Connected := False;
